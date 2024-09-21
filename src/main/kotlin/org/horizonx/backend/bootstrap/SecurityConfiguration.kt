@@ -11,5 +11,6 @@ class SecurityConfiguration {
     fun security(http: HttpSecurity): SecurityFilterChain = http
         .authorizeHttpRequests { it.anyRequest().permitAll() }
         .formLogin { it.disable() }
+        .csrf { it.disable() }
         .build()
 }

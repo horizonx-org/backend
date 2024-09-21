@@ -12,5 +12,5 @@ data class AppEntity(
     val imageUrl: String,
     val description: String,
 
-    val isPublished: Boolean,
+    val published: Boolean,
 ) : DtoMarker

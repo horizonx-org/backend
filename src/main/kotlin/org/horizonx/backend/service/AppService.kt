@@ -12,4 +12,10 @@ class AppService(
     fun getById(id: UUID): AppEntity? {
         return appDao.getById(id)
     }
+
+    fun create(appEntity: AppEntity): AppEntity {
+        val newApp = appEntity.copy(id = UUID.randomUUID())
+        appDao.create(newApp)
+        return appDao.getById(newApp.id)!!
+    }
 }
