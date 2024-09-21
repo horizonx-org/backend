@@ -7,17 +7,28 @@ import org.jdbi.v3.sqlobject.statement.SqlQuery
 import org.jdbi.v3.sqlobject.statement.SqlUpdate
 import java.util.UUID
 
+private const val allFields = "id, name, developer_id, title, image_url, description, published"
+
 @JdbiRepository
 interface AppDao {
 
     @SqlQuery(
         """
-        SELECT id, name, developer_id, title, image_url, description, published
+        SELECT $allFields
           FROM app
          WHERE id = :id
         """
     )
     fun getById(id: UUID): AppEntity?
+
+    @SqlQuery(
+        """
+        SELECT $allFields
+          FROM app
+         WHERE published
+        """
+    )
+    fun list(): List<AppEntity>
 
     @SqlUpdate(
         """
@@ -26,4 +37,16 @@ interface AppDao {
         """
     )
     fun create(@BindBean appEntity: AppEntity)
+
+    @SqlUpdate(
+        """
+        UPDATE app
+           SET title = :title,
+               image_url = :imageUrl,
+               description = :description,
+               published = :published
+         WHERE id = :id
+        """
+    )
+    fun update(@BindBean appEntity: AppEntity)
 }

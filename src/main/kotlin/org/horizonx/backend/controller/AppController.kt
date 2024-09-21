@@ -8,6 +8,7 @@ import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -30,9 +31,20 @@ class AppController(
         return appService.getById(id) ?: throw NotFoundException("App not found")
     }
 
+    @GetMapping("/")
+    fun list(): List<AppEntity> {
+        return appService.list()
+    }
+
     @PostMapping("/")
     fun create(@RequestBody app: AppEntity, @RequestParam token: String): AppEntity {
         if (token != securityKey) { throw ForbiddenException("Wrong auth token") }
         return appService.create(app)
+    }
+
+    @PutMapping("/{id}")
+    fun update(@RequestBody app: AppEntity, @PathVariable id: UUID, @RequestParam token: String): AppEntity {
+        if (token != securityKey) { throw ForbiddenException("Wrong auth token") }
+        return appService.update(id, app)
     }
 }
