@@ -7,7 +7,11 @@ data class HorizonxConfig(
 )
 
 data class S3Config(
+    val externalHost: String,
     val host: String,
     val user: String,
     val pass: String,
-)
+) {
+    val bucket get() = "horizonx"
+    val hostBucket get() = "$externalHost/$bucket"
+}

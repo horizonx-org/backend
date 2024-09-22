@@ -1,5 +1,6 @@
 package org.horizonx.backend.bootstrap
 
+import io.minio.MinioClient
 import org.jdbi.v3.core.Jdbi
 import org.jdbi.v3.core.kotlin.KotlinPlugin
 import org.jdbi.v3.core.statement.Slf4JSqlLogger
@@ -11,7 +12,7 @@ import org.springframework.context.annotation.Configuration
 import javax.sql.DataSource
 
 @Configuration
-class JdbiConfiguration {
+class StorageConfiguration {
 
     @Bean
     fun jdbi(ds: DataSource): Jdbi {
@@ -25,4 +26,10 @@ class JdbiConfiguration {
 
         return jdbi
     }
+
+    @Bean
+    fun minio(config: HorizonxConfig): MinioClient = MinioClient.builder()
+        .endpoint(config.s3.host)
+        .credentials(config.s3.user, config.s3.pass)
+        .build()
 }

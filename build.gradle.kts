@@ -36,6 +36,7 @@ dependencies {
 	implementation("org.jdbi:jdbi3-kotlin-sqlobject")
 	implementation("org.jdbi:jdbi3-spring5")
 
+	implementation("io.minio:minio:8.5.12")
 
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
